@@ -198,6 +198,11 @@ If enabling the full App.jsx version:
    - The full 3D version may require more memory
    - Monitor resource usage during development
 
+4. **Preview URL Access Issues**:
+   - If getting "host not allowed" errors from preview URLs
+   - The vite.config.js has been configured to allow Emergent preview domains
+   - Includes allowedHosts for `.emergentagent.com` and `.preview.emergentagent.com`
+
 ### Development Commands
 
 ```bash
