@@ -1,5 +1,13 @@
-import Database from 'better-sqlite3';
-import path from 'path';
+// Conditionally import Node.js modules only in Electron environment
+let Database, path;
+if (typeof window !== 'undefined' && window.electronAPI?.isElectron) {
+  try {
+    Database = require('better-sqlite3');
+    path = require('path');
+  } catch (error) {
+    console.warn('Failed to load Node.js modules, using web fallbacks');
+  }
+}
 
 class DatabaseService {
   constructor() {
