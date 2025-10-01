@@ -31,7 +31,7 @@ class DatabaseService {
           window.nodeAPI?.fs.mkdirSync(dbDir, { recursive: true });
         }
 
-        this.db = new Database(dbPath);
+        this.db = Database ? new Database(dbPath) : null;
         this.createTables();
       } else {
         // Web: Use localStorage as fallback
