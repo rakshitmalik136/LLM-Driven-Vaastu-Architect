@@ -1,0 +1,38 @@
+$ pnpm add @tailwindcss/aspect-ratio
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Progress: resolved 1, reused 1, downloaded 0, added 0
+Progress: resolved 117, reused 117, downloaded 0, added 0
+Progress: resolved 620, reused 611, downloaded 4, added 0
+ WARN  4 deprecated subdependencies found: boolean@3.2.0, glob@7.2.3, inflight@1.0.6, rollup-plugin-terser@7.0.2
+Progress: resolved 701, reused 646, downloaded 12, added 0
+Packages: +1
++
+Progress: resolved 701, reused 646, downloaded 12, added 1, done
+ WARN  Issues with peer dependencies found
+.
+├─┬ @react-three/fiber 9.3.0
+│ ├── ✕ unmet peer react@^19.0.0: found 18.3.1
+│ ├── ✕ unmet peer react-dom@^19.0.0: found 18.3.1
+│ ├─┬ react-reconciler 0.31.0
+│ │ └── ✕ unmet peer react@^19.0.0: found 18.3.1
+│ └─┬ its-fine 2.0.0
+│   └── ✕ unmet peer react@^19.0.0: found 18.3.1
+├─┬ @react-three/drei 10.7.4
+│ ├── ✕ unmet peer react@^19: found 18.3.1
+│ └── ✕ unmet peer react-dom@^19: found 18.3.1
+└─┬ @metagptx/vite-plugin-source-locator 0.0.6
+  └─┬ rollup-plugin-terser 7.0.2
+    └── ✕ unmet peer rollup@^2.0.0: found 4.49.0
+
+dependencies:
++ @tailwindcss/aspect-ratio 0.4.2
+
+╭ Warning ─────────────────────────────────────────────────────────────────────╮
+│                                                                              │
+│   Ignored build scripts: better-sqlite3.                                     │
+│   Run "pnpm approve-builds" to pick which dependencies should be allowed     │
+│   to run scripts.                                                            │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Done in 6.3s using pnpm v10.15.1

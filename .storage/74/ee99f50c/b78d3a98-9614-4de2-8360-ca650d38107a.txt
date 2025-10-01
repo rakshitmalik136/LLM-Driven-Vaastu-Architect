@@ -1,0 +1,67 @@
+$ pnpm add @tailwindcss/aspect-ratio
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Progress: resolved 1, reused 1, downloaded 0, added 0
+Progress: resolved 117, reused 117, downloaded 0, added 0
+Progress: resolved 620, reused 611, downloaded 4, added 0
+ WARN  4 deprecated subdependencies found: boolean@3.2.0, glob@7.2.3, inflight@1.0.6, rollup-plugin-terser@7.0.2
+Progress: resolved 701, reused 646, downloaded 12, added 0
+Packages: +1
++
+Progress: resolved 701, reused 646, downloaded 12, added 1, done
+ WARN  Issues with peer dependencies found
+.
+├─┬ @react-three/fiber 9.3.0
+│ ├── ✕ unmet peer react@^19.0.0: found 18.3.1
+│ ├── ✕ unmet peer react-dom@^19.0.0: found 18.3.1
+│ ├─┬ react-reconciler 0.31.0
+│ │ └── ✕ unmet peer react@^19.0.0: found 18.3.1
+│ └─┬ its-fine 2.0.0
+│   └── ✕ unmet peer react@^19.0.0: found 18.3.1
+├─┬ @react-three/drei 10.7.4
+│ ├── ✕ unmet peer react@^19: found 18.3.1
+│ └── ✕ unmet peer react-dom@^19: found 18.3.1
+└─┬ @metagptx/vite-plugin-source-locator 0.0.6
+  └─┬ rollup-plugin-terser 7.0.2
+    └── ✕ unmet peer rollup@^2.0.0: found 4.49.0
+
+dependencies:
++ @tailwindcss/aspect-ratio 0.4.2
+
+╭ Warning ─────────────────────────────────────────────────────────────────────╮
+│                                                                              │
+│   Ignored build scripts: better-sqlite3.                                     │
+│   Run "pnpm approve-builds" to pick which dependencies should be allowed     │
+│   to run scripts.                                                            │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Done in 6.3s using pnpm v10.15.1
+$ pnpm run build
+
+
+> vastu-architect-ai@1.0.0 build /workspace/react_template
+> vite build
+
+vite v5.4.19 building for production...
+transforming...
+[plugin:vite:resolve] [plugin vite:resolve] Module "path" has been externalized for browser compatibility, imported by "/workspace/react_template/src/services/DatabaseService.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+[plugin:vite:resolve] [plugin vite:resolve] Module "fs" has been externalized for browser compatibility, imported by "/workspace/react_template/node_modules/.pnpm/better-sqlite3@9.6.0/node_modules/better-sqlite3/lib/database.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+[plugin:vite:resolve] [plugin vite:resolve] Module "path" has been externalized for browser compatibility, imported by "/workspace/react_template/node_modules/.pnpm/better-sqlite3@9.6.0/node_modules/better-sqlite3/lib/database.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+[plugin:vite:resolve] [plugin vite:resolve] Module "fs" has been externalized for browser compatibility, imported by "/workspace/react_template/node_modules/.pnpm/better-sqlite3@9.6.0/node_modules/better-sqlite3/lib/methods/backup.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+[plugin:vite:resolve] [plugin vite:resolve] Module "path" has been externalized for browser compatibility, imported by "/workspace/react_template/node_modules/.pnpm/better-sqlite3@9.6.0/node_modules/better-sqlite3/lib/methods/backup.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+[plugin:vite:resolve] [plugin vite:resolve] Module "util" has been externalized for browser compatibility, imported by "/workspace/react_template/node_modules/.pnpm/better-sqlite3@9.6.0/node_modules/better-sqlite3/lib/methods/backup.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+[plugin:vite:resolve] [plugin vite:resolve] Module "fs" has been externalized for browser compatibility, imported by "/workspace/react_template/node_modules/.pnpm/bindings@1.5.0/node_modules/bindings/bindings.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+[plugin:vite:resolve] [plugin vite:resolve] Module "path" has been externalized for browser compatibility, imported by "/workspace/react_template/node_modules/.pnpm/bindings@1.5.0/node_modules/bindings/bindings.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+[plugin:vite:resolve] [plugin vite:resolve] Module "path" has been externalized for browser compatibility, imported by "/workspace/react_template/node_modules/.pnpm/file-uri-to-path@1.0.0/node_modules/file-uri-to-path/index.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+✓ 2283 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                     0.52 kB │ gzip:   0.35 kB
+dist/assets/index-BpcGbMq9.css     11.65 kB │ gzip:   3.02 kB
+dist/assets/index-DFP644-H.js   1,147.23 kB │ gzip: 322.36 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 11.70s

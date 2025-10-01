@@ -1,0 +1,4 @@
+$ pnpm add -D electron electron-builder concurrently wait-on
+Usage Error: Invalid package.json in package.json
+
+$ pnpm ...

@@ -1,0 +1,299 @@
+classDiagram
+    %% Frontend Components
+    class DesignCanvas {
+        +scene: THREE.Scene
+        +camera: THREE.Camera
+        +renderer: THREE.WebGLRenderer
+        +controls: OrbitControls
+        +renderScene(): void
+        +addObject(object: THREE.Object3D): void
+        +removeObject(objectId: string): void
+        +updateObject(objectId: string, properties: Object): void
+        +exportScene(): SceneData
+    }
+
+    class NaturalLanguageInput {
+        +inputText: string
+        +isProcessing: boolean
+        +voiceRecognition: SpeechRecognition
+        +processInput(text: string): Promise<DesignIntent>
+        +startVoiceInput(): void
+        +stopVoiceInput(): void
+        +validateInput(text: string): ValidationResult
+    }
+
+    class CollaborationManager {
+        +socket: Socket
+        +activeUsers: User[]
+        +cursors: Map<string, CursorPosition>
+        +connect(): void
+        +disconnect(): void
+        +broadcastChange(change: DesignChange): void
+        +handleRemoteChange(change: DesignChange): void
+        +syncState(): void
+    }
+
+    %% Core Domain Models
+    class Project {
+        +id: string
+        +name: string
+        +description: string
+        +owner: User
+        +collaborators: User[]
+        +createdAt: Date
+        +updatedAt: Date
+        +designData: DesignData
+        +vastuScore: number
+        +create(): Promise<Project>
+        +update(data: Partial<Project>): Promise<Project>
+        +delete(): Promise<void>
+        +addCollaborator(user: User): Promise<void>
+        +removeCollaborator(userId: string): Promise<void>
+    }
+
+    class DesignData {
+        +architectural: ArchitecturalDesign
+        +interior: InteriorDesign
+        +exterior: ExteriorDesign
+        +vastu: VastuCompliance
+        +metadata: DesignMetadata
+        +validate(): ValidationResult
+        +calculateVastuScore(): number
+        +export(format: ExportFormat): Promise<ExportResult>
+    }
+
+    class ArchitecturalDesign {
+        +floorPlans: FloorPlan[]
+        +elevations: Elevation[]
+        +sections: Section[]
+        +structuralElements: StructuralElement[]
+        +dimensions: Dimensions
+        +orientation: Orientation
+        +generateFloorPlan(requirements: DesignRequirements): Promise<FloorPlan>
+        +validateStructure(): ValidationResult
+        +calculateArea(): number
+        +optimizeLayout(): Promise<ArchitecturalDesign>
+    }
+
+    class InteriorDesign {
+        +rooms: Room[]
+        +furniture: FurnitureItem[]
+        +lighting: LightingPlan
+        +materials: Material[]
+        +colorScheme: ColorScheme
+        +generateRoomLayout(room: Room, requirements: RoomRequirements): Promise<RoomLayout>
+        +placeFurniture(item: FurnitureItem, position: Position): Promise<void>
+        +optimizeLighting(room: Room): Promise<LightingPlan>
+        +validateVastuCompliance(): VastuResult
+    }
+
+    class ExteriorDesign {
+        +facade: FacadeDesign
+        +landscape: LandscapeDesign
+        +outdoorSpaces: OutdoorSpace[]
+        +entrances: Entrance[]
+        +utilities: UtilityArea[]
+        +generateFacade(style: ArchitecturalStyle): Promise<FacadeDesign>
+        +designLandscape(plot: PlotData): Promise<LandscapeDesign>
+        +placeOutdoorElements(): Promise<void>
+        +validateVastuCompliance(): VastuResult
+    }
+
+    %% Backend Services
+    class APIGateway {
+        +routes: Route[]
+        +middleware: Middleware[]
+        +authService: AuthenticationService
+        +rateLimiter: RateLimiter
+        +routeRequest(request: Request): Promise<Response>
+        +authenticate(token: string): Promise<User>
+        +authorize(user: User, resource: string): boolean
+        +handleError(error: Error): Response
+    }
+
+    class DesignGenerationService {
+        +llmClient: LLMClient
+        +vastuEngine: VastuEngine
+        +templateLibrary: TemplateLibrary
+        +processDesignRequest(intent: DesignIntent): Promise<DesignData>
+        +generateArchitectural(requirements: ArchitecturalRequirements): Promise<ArchitecturalDesign>
+        +generateInterior(requirements: InteriorRequirements): Promise<InteriorDesign>
+        +generateExterior(requirements: ExteriorRequirements): Promise<ExteriorDesign>
+        +validateDesign(design: DesignData): ValidationResult
+    }
+
+    class VastuEngine {
+        +rules: VastuRule[]
+        +directionCalculator: DirectionCalculator
+        +complianceChecker: ComplianceChecker
+        +remedyGenerator: RemedyGenerator
+        +checkCompliance(design: DesignData): VastuResult
+        +calculateScore(design: DesignData): number
+        +generateRemedies(violations: VastuViolation[]): Remedy[]
+        +validateDirection(element: DesignElement, direction: Direction): boolean
+    }
+
+    class RenderingService {
+        +sceneManager: SceneManager
+        +materialLibrary: MaterialLibrary
+        +lightingEngine: LightingEngine
+        +exportEngine: ExportEngine
+        +render3D(design: DesignData): Promise<RenderResult>
+        +generateThumbnail(design: DesignData): Promise<Thumbnail>
+        +exportDrawings(design: DesignData, format: ExportFormat): Promise<ExportResult>
+        +optimizePerformance(): void
+    }
+
+    class AssetManagementService {
+        +furnitureLibrary: FurnitureLibrary
+        +materialLibrary: MaterialLibrary
+        +plantLibrary: PlantLibrary
+        +textureLibrary: TextureLibrary
+        +getFurniture(category: string, filters: Filter[]): Promise<FurnitureItem[]>
+        +getMaterials(type: MaterialType): Promise<Material[]>
+        +getPlants(climate: Climate, vastuCompliant: boolean): Promise<Plant[]>
+        +uploadAsset(asset: Asset): Promise<string>
+    }
+
+    class CollaborationService {
+        +socketManager: SocketManager
+        +conflictResolver: ConflictResolver
+        +versionControl: VersionControl
+        +notificationService: NotificationService
+        +handleConnection(socket: Socket): void
+        +broadcastChange(projectId: string, change: DesignChange): void
+        +resolveConflict(conflict: Conflict): Resolution
+        +createVersion(projectId: string, changes: DesignChange[]): Promise<Version>
+    }
+
+    %% Data Models
+    class User {
+        +id: string
+        +email: string
+        +name: string
+        +role: UserRole
+        +preferences: UserPreferences
+        +projects: Project[]
+        +createdAt: Date
+        +authenticate(password: string): Promise<boolean>
+        +updateProfile(data: Partial<User>): Promise<User>
+        +getProjects(): Promise<Project[]>
+    }
+
+    class Room {
+        +id: string
+        +name: string
+        +type: RoomType
+        +dimensions: Dimensions
+        +position: Position
+        +direction: Direction
+        +furniture: FurnitureItem[]
+        +lighting: LightingFixture[]
+        +materials: Material[]
+        +vastuScore: number
+        +calculateArea(): number
+        +validateVastu(): VastuResult
+        +optimizeLayout(): Promise<Room>
+    }
+
+    class FurnitureItem {
+        +id: string
+        +name: string
+        +category: FurnitureCategory
+        +dimensions: Dimensions
+        +position: Position
+        +rotation: Rotation
+        +material: Material
+        +vastuCompliant: boolean
+        +model3D: Model3D
+        +place(position: Position, rotation: Rotation): void
+        +checkVastuCompliance(room: Room): boolean
+        +getBoundingBox(): BoundingBox
+    }
+
+    class VastuRule {
+        +id: string
+        +name: string
+        +description: string
+        +category: VastuCategory
+        +priority: Priority
+        +conditions: Condition[]
+        +remedies: Remedy[]
+        +evaluate(context: DesignContext): VastuResult
+        +getRemedies(): Remedy[]
+        +isApplicable(element: DesignElement): boolean
+    }
+
+    class LLMClient {
+        +apiKey: string
+        +model: string
+        +maxTokens: number
+        +temperature: number
+        +processPrompt(prompt: string): Promise<LLMResponse>
+        +generateDesign(intent: DesignIntent): Promise<DesignSuggestion>
+        +interpretNaturalLanguage(text: string): Promise<DesignRequirements>
+        +validateResponse(response: LLMResponse): boolean
+    }
+
+    %% Database Repositories
+    class ProjectRepository {
+        +database: Database
+        +create(project: Project): Promise<Project>
+        +findById(id: string): Promise<Project>
+        +findByUserId(userId: string): Promise<Project[]>
+        +update(id: string, data: Partial<Project>): Promise<Project>
+        +delete(id: string): Promise<void>
+        +search(criteria: SearchCriteria): Promise<Project[]>
+    }
+
+    class AssetRepository {
+        +database: Database
+        +cache: Cache
+        +findFurniture(filters: Filter[]): Promise<FurnitureItem[]>
+        +findMaterials(type: MaterialType): Promise<Material[]>
+        +findPlants(criteria: PlantCriteria): Promise<Plant[]>
+        +cacheAsset(asset: Asset): Promise<void>
+        +invalidateCache(assetId: string): Promise<void>
+    }
+
+    class VastuRepository {
+        +database: Database
+        +getRules(category: VastuCategory): Promise<VastuRule[]>
+        +getRemedies(violation: VastuViolation): Promise<Remedy[]>
+        +updateRule(rule: VastuRule): Promise<VastuRule>
+        +searchRules(query: string): Promise<VastuRule[]>
+    }
+
+    %% Relationships
+    DesignCanvas --> DesignData : renders
+    NaturalLanguageInput --> DesignGenerationService : processes
+    CollaborationManager --> CollaborationService : communicates
+    
+    Project --> DesignData : contains
+    Project --> User : belongs_to
+    DesignData --> ArchitecturalDesign : includes
+    DesignData --> InteriorDesign : includes
+    DesignData --> ExteriorDesign : includes
+    
+    ArchitecturalDesign --> Room : contains
+    InteriorDesign --> Room : manages
+    InteriorDesign --> FurnitureItem : places
+    Room --> FurnitureItem : contains
+    
+    APIGateway --> DesignGenerationService : routes_to
+    APIGateway --> VastuEngine : routes_to
+    APIGateway --> RenderingService : routes_to
+    APIGateway --> AssetManagementService : routes_to
+    APIGateway --> CollaborationService : routes_to
+    
+    DesignGenerationService --> LLMClient : uses
+    DesignGenerationService --> VastuEngine : validates_with
+    VastuEngine --> VastuRule : applies
+    VastuEngine --> VastuRepository : queries
+    
+    AssetManagementService --> AssetRepository : queries
+    CollaborationService --> ProjectRepository : updates
+    
+    ProjectRepository --> Project : manages
+    AssetRepository --> FurnitureItem : stores
+    VastuRepository --> VastuRule : stores

@@ -1,0 +1,24 @@
+$ pnpm add -D electron electron-builder concurrently wait-on
+Usage Error: Invalid package.json in package.json
+
+$ pnpm ...
+$ pnpm add sqlite3 better-sqlite3
+
+Usage Error: Invalid package.json in package.json
+
+$ pnpm ...
+$ pnpm add -D electron electron-builder concurrently wait-on
+
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Progress: resolved 23, reused 18, downloaded 0, added 0
+ ERR_PNPM_NO_MATCHING_VERSION  No matching version found for tailwindcss@^3.5.7 while fetching it from https://registry.npmjs.org/
+
+This error happened while installing a direct dependency of /workspace/react_template
+
+The latest release of tailwindcss is "4.1.12".
+
+Other releases are:
+  * next: 4.0.0
+  * insiders: 0.0.0-insiders.ddc84b0
+
+If you need the full list of all 2252 published versions run "$ pnpm view tailwindcss versions".

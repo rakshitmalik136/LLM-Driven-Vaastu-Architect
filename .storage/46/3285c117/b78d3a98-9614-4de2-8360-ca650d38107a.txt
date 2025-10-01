@@ -1,0 +1,71 @@
+$ cd /workspace/react_template
+$ pnpm add three @react-three/fiber @react-three/drei lucide-react
+
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Progress: resolved 7, reused 4, downloaded 0, added 0
+Progress: resolved 34, reused 30, downloaded 0, added 0
+Progress: resolved 367, reused 362, downloaded 0, added 0
+Progress: resolved 492, reused 423, downloaded 17, added 0
+Progress: resolved 514, reused 425, downloaded 27, added 0
+ WARN  1 deprecated subdependencies found: rollup-plugin-terser@7.0.2
+Packages: +58
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Progress: resolved 522, reused 426, downloaded 45, added 0
+Progress: resolved 522, reused 426, downloaded 47, added 0
+Progress: resolved 522, reused 426, downloaded 49, added 1
+Progress: resolved 522, reused 426, downloaded 50, added 9
+Progress: resolved 522, reused 426, downloaded 50, added 20
+Progress: resolved 522, reused 426, downloaded 50, added 30
+Progress: resolved 522, reused 426, downloaded 51, added 34
+Progress: resolved 522, reused 426, downloaded 51, added 38
+Progress: resolved 522, reused 426, downloaded 51, added 47
+Progress: resolved 522, reused 426, downloaded 51, added 51
+Progress: resolved 522, reused 426, downloaded 51, added 52
+Progress: resolved 522, reused 426, downloaded 51, added 53
+Progress: resolved 522, reused 426, downloaded 52, added 53
+Progress: resolved 522, reused 426, downloaded 53, added 53
+Progress: resolved 522, reused 426, downloaded 54, added 53
+Progress: resolved 522, reused 426, downloaded 54, added 54
+Progress: resolved 522, reused 426, downloaded 54, added 55
+Progress: resolved 522, reused 426, downloaded 54, added 56
+Progress: resolved 522, reused 426, downloaded 54, added 57
+Progress: resolved 522, reused 426, downloaded 55, added 57
+Progress: resolved 522, reused 426, downloaded 55, added 58
+Progress: resolved 522, reused 426, downloaded 55, added 58, done
+ WARN  Issues with peer dependencies found
+.
+├─┬ @react-three/fiber 9.3.0
+│ ├── ✕ unmet peer react@^19.0.0: found 18.3.1
+│ ├── ✕ unmet peer react-dom@^19.0.0: found 18.3.1
+│ ├─┬ its-fine 2.0.0
+│ │ └── ✕ unmet peer react@^19.0.0: found 18.3.1
+│ └─┬ react-reconciler 0.31.0
+│   └── ✕ unmet peer react@^19.0.0: found 18.3.1
+├─┬ @react-three/drei 10.7.4
+│ ├── ✕ unmet peer react@^19: found 18.3.1
+│ └── ✕ unmet peer react-dom@^19: found 18.3.1
+└─┬ @metagptx/vite-plugin-source-locator 0.0.6
+  └─┬ rollup-plugin-terser 7.0.2
+    └── ✕ unmet peer rollup@^2.0.0: found 4.49.0
+
+dependencies:
++ @react-three/drei 10.7.4
++ @react-three/fiber 9.3.0
++ lucide-react 0.542.0
++ three 0.179.1
+
+╭ Warning ─────────────────────────────────────────────────────────────────────╮
+│                                                                              │
+│   Ignored build scripts: @metagptx/vite-plugin-source-locator, esbuild.      │
+│   Run "pnpm approve-builds" to pick which dependencies should be allowed     │
+│   to run scripts.                                                            │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Done in 1m 52s using pnpm v10.15.0
+$ pnpm run lint
+
+
+> react-template@0.0.0 lint /workspace/react_template
+> eslint ./src --quiet
+
