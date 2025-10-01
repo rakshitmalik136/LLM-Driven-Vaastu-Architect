@@ -40,7 +40,7 @@ const Canvas3D = () => {
         <div className="bg-gray-800 px-3 py-2 rounded-lg border border-gray-600">
           <span className="text-sm text-gray-300">Mode: </span>
           <span className="text-sm font-medium text-blue-400 capitalize">
-            {state.currentMode}
+            {state.mode}
           </span>
         </div>
       </div>
