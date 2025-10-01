@@ -4,7 +4,7 @@ import { useDesign } from '../context/DesignContext';
 import LLMService from '../services/LLMService';
 import VastuEngine from '../engine/VastuEngine';
 
-const InputPanel = ({ setVastuScore }) => {
+const InputPanel = ({ setVastuScore } = {}) => {
   const [input, setInput] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [suggestions] = useState([
