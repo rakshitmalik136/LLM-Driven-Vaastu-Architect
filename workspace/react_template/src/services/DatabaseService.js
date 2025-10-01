@@ -10,33 +10,39 @@ class DatabaseService {
   async initialize() {
     if (this.initialized) return;
 
-    // Load Node.js modules if in Electron
-    await loadNodeModules();
-
     try {
       if (this.isElectron) {
-        // Desktop: Use SQLite
-        const userDataPath = window.nodeAPI?.os.homedir() || '.';
-        const dbPath = window.nodeAPI?.path.join(userDataPath, '.vastu-architect', 'projects.db') || './projects.db';
-        
-        // Ensure directory exists
-        const dbDir = window.nodeAPI?.path.dirname(dbPath);
-        if (dbDir && !window.nodeAPI?.fs.existsSync(dbDir)) {
-          window.nodeAPI?.fs.mkdirSync(dbDir, { recursive: true });
-        }
+        // Desktop: Try to use SQLite if available
+        try {
+          // Only try to use Node.js modules if we're in Electron with proper APIs
+          if (window.nodeAPI && window.electronAPI) {
+            const userDataPath = window.nodeAPI.os.homedir() || '.';
+            const dbPath = window.nodeAPI.path.join(userDataPath, '.vastu-architect', 'projects.db') || './projects.db';
+            
+            // Ensure directory exists
+            const dbDir = window.nodeAPI.path.dirname(dbPath);
+            if (dbDir && !window.nodeAPI.fs.existsSync(dbDir)) {
+              window.nodeAPI.fs.mkdirSync(dbDir, { recursive: true });
+            }
 
-        this.db = Database ? new Database(dbPath) : null;
-        this.createTables();
-      } else {
-        // Web: Use localStorage as fallback
-        console.log('Using localStorage for data persistence');
+            // This would need better-sqlite3 to be properly exposed
+            // For now, fall back to localStorage even in Electron
+            throw new Error('SQLite not available, using localStorage');
+          }
+        } catch (sqliteError) {
+          console.warn('SQLite not available, falling back to localStorage:', sqliteError);
+          this.isElectron = false;
+        }
       }
       
+      // Web or fallback: Use localStorage
+      console.log('Using localStorage for data persistence');
       this.initialized = true;
     } catch (error) {
       console.error('Database initialization failed:', error);
       // Fallback to localStorage
       this.isElectron = false;
+      this.initialized = true;
     }
   }
 
