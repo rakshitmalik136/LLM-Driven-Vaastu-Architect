@@ -55,7 +55,7 @@ const Sidebar = ({ currentProject, setCurrentProject } = {}) => {
               {projects.map((project) => (
                 <div
                   key={project.id}
-                  onClick={() => setCurrentProject(project)}
+                  onClick={() => setCurrentProject && setCurrentProject(project)}
                   className={`p-3 rounded-lg cursor-pointer transition-colors ${
                     currentProject?.id === project.id
                       ? 'bg-blue-600 text-white'
