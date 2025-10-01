@@ -1,7 +1,10 @@
 import React from 'react';
 import { CheckCircle, AlertTriangle, XCircle } from 'lucide-react';
+import { useDesign } from '../context/DesignContext';
 
-const VastuIndicator = ({ score }) => {
+const VastuIndicator = ({ score: propScore } = {}) => {
+  const { state } = useDesign();
+  const score = propScore ?? state.vastuAnalysis?.score ?? 100;
   const getScoreColor = (score) => {
     if (score >= 90) return 'text-green-400';
     if (score >= 70) return 'text-yellow-400';
