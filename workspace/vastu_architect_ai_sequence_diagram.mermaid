@@ -1,0 +1,205 @@
+sequenceDiagram
+    participant U as User
+    participant UI as NaturalLanguageInput
+    participant AG as APIGateway
+    participant DGS as DesignGenerationService
+    participant LLM as LLMClient
+    participant VE as VastuEngine
+    participant AMS as AssetManagementService
+    participant RS as RenderingService
+    participant CS as CollaborationService
+    participant PR as ProjectRepository
+    participant AR as AssetRepository
+    participant VR as VastuRepository
+    participant DC as DesignCanvas
+    participant CM as CollaborationManager
+
+    %% Initial Project Creation Flow
+    Note over U,CM: Project Initialization and Design Generation
+    U->>UI: Enter natural language description
+    UI->>UI: validateInput(text)
+    UI->>AG: POST /api/design/generate {text, userId}
+    AG->>AG: authenticate(token)
+    AG->>DGS: processDesignRequest(designIntent)
+    
+    %% LLM Processing
+    DGS->>LLM: interpretNaturalLanguage(text)
+    LLM->>LLM: processPrompt(prompt)
+    LLM-->>DGS: return DesignRequirements
+    
+    %% Asset Retrieval
+    DGS->>AMS: getFurniture(category, filters)
+    AMS->>AR: findFurniture(filters)
+    AR-->>AMS: return FurnitureItem[]
+    AMS-->>DGS: return furniture assets
+    
+    DGS->>AMS: getMaterials(MaterialType.FLOORING)
+    AMS->>AR: findMaterials(type)
+    AR-->>AMS: return Material[]
+    AMS-->>DGS: return material assets
+    
+    DGS->>AMS: getPlants(climate, vastuCompliant=true)
+    AMS->>AR: findPlants(criteria)
+    AR-->>AMS: return Plant[]
+    AMS-->>DGS: return plant assets
+    
+    %% Design Generation
+    DGS->>DGS: generateArchitectural(requirements)
+    DGS->>DGS: generateInterior(requirements)
+    DGS->>DGS: generateExterior(requirements)
+    
+    %% Vastu Validation
+    DGS->>VE: checkCompliance(designData)
+    VE->>VR: getRules(VastuCategory.ARCHITECTURAL)
+    VR-->>VE: return VastuRule[]
+    VE->>VR: getRules(VastuCategory.INTERIOR)
+    VR-->>VE: return VastuRule[]
+    VE->>VR: getRules(VastuCategory.EXTERIOR)
+    VR-->>VE: return VastuRule[]
+    
+    VE->>VE: validateDirection(element, direction)
+    VE->>VE: calculateScore(designData)
+    VE->>VE: generateRemedies(violations)
+    VE-->>DGS: return VastuResult
+    
+    %% Project Creation
+    DGS->>PR: create(project)
+    PR->>PR: validate project data
+    PR-->>DGS: return Project
+    DGS-->>AG: return DesignData
+    AG-->>UI: return generated design
+    
+    %% 3D Rendering
+    UI->>DC: renderDesign(designData)
+    DC->>RS: render3D(designData)
+    RS->>RS: generateScene(designData)
+    RS->>RS: applyMaterials(materials)
+    RS->>RS: setupLighting(lightingPlan)
+    RS-->>DC: return RenderResult
+    DC->>DC: updateScene(renderResult)
+    DC-->>U: Display 3D visualization
+    
+    %% Real-time Collaboration Setup
+    Note over U,CM: Collaboration Session Initialization
+    U->>CM: initializeCollaboration(projectId)
+    CM->>CS: connect(socket, projectId)
+    CS->>CS: handleConnection(socket)
+    CS->>PR: findById(projectId)
+    PR-->>CS: return Project
+    CS->>CS: addUserToSession(user, projectId)
+    CS-->>CM: return session info
+    CM-->>U: Collaboration ready
+    
+    %% Design Modification Flow
+    Note over U,CM: Interactive Design Modification
+    U->>DC: selectObject(objectId)
+    DC->>DC: highlightObject(objectId)
+    U->>UI: "Move sofa to east wall for better Vastu"
+    UI->>AG: PUT /api/design/modify {projectId, modification}
+    AG->>DGS: processModification(modification)
+    
+    %% LLM Understanding
+    DGS->>LLM: interpretModification(text)
+    LLM-->>DGS: return ModificationIntent
+    
+    %% Asset Updates
+    DGS->>AMS: getFurniture("sofa", vastuFilters)
+    AMS->>AR: findFurniture(filters)
+    AR-->>AMS: return FurnitureItem[]
+    AMS-->>DGS: return suitable furniture
+    
+    %% Vastu Re-validation
+    DGS->>VE: validateModification(modification, currentDesign)
+    VE->>VE: checkDirectionalCompliance(newPosition)
+    VE->>VE: calculateUpdatedScore(modifiedDesign)
+    VE-->>DGS: return VastuResult
+    
+    %% Update Design
+    DGS->>DGS: applyModification(designData, modification)
+    DGS->>PR: update(projectId, updatedDesign)
+    PR-->>DGS: return updated Project
+    
+    %% Broadcast Changes
+    DGS->>CS: broadcastChange(projectId, designChange)
+    CS->>CM: handleRemoteChange(designChange)
+    CM->>DC: updateObject(objectId, newProperties)
+    DC->>DC: animateTransition(oldPos, newPos)
+    DC-->>U: Show updated visualization
+    
+    %% Collaboration Sync
+    CS->>CS: syncState(projectId)
+    CS-->>CM: broadcast to all users
+    CM-->>U: Show other users' changes
+    
+    %% Export Workflow
+    Note over U,CM: Professional Drawing Export
+    U->>UI: requestExport(format="DWG")
+    UI->>AG: POST /api/export {projectId, format}
+    AG->>RS: exportDrawings(designData, format)
+    
+    %% Generate Professional Drawings
+    RS->>RS: generateFloorPlans(architecturalDesign)
+    RS->>RS: generateElevations(architecturalDesign)
+    RS->>RS: generateInteriorLayouts(interiorDesign)
+    RS->>RS: generateLandscapePlans(exteriorDesign)
+    RS->>RS: addVastuAnnotations(vastuCompliance)
+    RS->>RS: compileDrawingSet(drawings)
+    RS-->>AG: return ExportResult
+    AG-->>UI: return download link
+    UI-->>U: Provide download
+    
+    %% Version Control
+    Note over U,CM: Design Version Management
+    U->>CM: saveVersion("Final design v1.0")
+    CM->>CS: createVersion(projectId, versionName)
+    CS->>CS: captureCurrentState(designData)
+    CS->>PR: saveVersion(projectId, versionData)
+    PR-->>CS: return Version
+    CS-->>CM: return version info
+    CM-->>U: Version saved confirmation
+    
+    %% Vastu Compliance Reporting
+    Note over U,CM: Detailed Vastu Analysis
+    U->>UI: requestVastuReport()
+    UI->>AG: GET /api/vastu/report/{projectId}
+    AG->>VE: generateDetailedReport(projectId)
+    VE->>PR: findById(projectId)
+    PR-->>VE: return Project
+    VE->>VE: analyzeArchitecturalCompliance(design)
+    VE->>VE: analyzeInteriorCompliance(design)
+    VE->>VE: analyzeExteriorCompliance(design)
+    VE->>VR: getRemedies(violations)
+    VR-->>VE: return Remedy[]
+    VE->>VE: compileReport(analysis, remedies)
+    VE-->>AG: return VastuReport
+    AG-->>UI: return report data
+    UI-->>U: Display comprehensive report
+    
+    %% Error Handling and Recovery
+    Note over U,CM: Error Scenarios
+    alt LLM Service Unavailable
+        DGS->>LLM: processPrompt(prompt)
+        LLM-->>DGS: ServiceUnavailable Error
+        DGS->>DGS: fallbackToTemplates(requirements)
+        DGS-->>AG: return basic design with warning
+    else Vastu Validation Fails
+        VE->>VE: checkCompliance(design)
+        VE-->>DGS: return ValidationError
+        DGS->>DGS: applyAutoRemedies(design)
+        DGS->>VE: recheckCompliance(modifiedDesign)
+        VE-->>DGS: return improved VastuResult
+    else Collaboration Conflict
+        CS->>CS: detectConflict(change1, change2)
+        CS->>CS: resolveConflict(conflict)
+        CS->>CM: notifyConflictResolution(resolution)
+        CM-->>U: Show conflict resolution options
+    end
+    
+    %% Cleanup and Session End
+    Note over U,CM: Session Termination
+    U->>CM: disconnect()
+    CM->>CS: disconnect(socket)
+    CS->>CS: removeUserFromSession(userId, projectId)
+    CS->>CS: cleanupResources(sessionId)
+    CS-->>CM: disconnection confirmed
+    CM-->>U: Session ended
