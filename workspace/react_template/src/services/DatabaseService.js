@@ -24,6 +24,9 @@ class DatabaseService {
   async initialize() {
     if (this.initialized) return;
 
+    // Load Node.js modules if in Electron
+    await loadNodeModules();
+
     try {
       if (this.isElectron) {
         // Desktop: Use SQLite
