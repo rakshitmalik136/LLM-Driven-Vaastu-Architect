@@ -8,6 +8,7 @@
   "description": "LLM-Powered Vastu-Aware Architectural Design Studio",
   "author": "Vastu Architect AI Team",
   "scripts": {
+    "start": "vite --host 0.0.0.0 --port 3000",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint ./src --quiet",
