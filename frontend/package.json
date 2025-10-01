@@ -1,0 +1,75 @@
+{
+  "name": "vastu-architect-ai",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "main": "electron/main.js",
+  "homepage": "./",
+  "description": "LLM-Powered Vastu-Aware Architectural Design Studio",
+  "author": "Vastu Architect AI Team",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint ./src --quiet",
+    "preview": "vite preview",
+    "electron": "electron .",
+    "electron-dev": "concurrently \"pnpm run dev\" \"wait-on http://localhost:5173 && electron .\"",
+    "electron-build": "pnpm run build && electron .",
+    "dist": "pnpm run build && electron-builder",
+    "dist-all": "pnpm run build && electron-builder -mwl",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "build": {
+    "appId": "com.vastuarchitectai.app",
+    "productName": "Vastu Architect AI",
+    "directories": {
+      "output": "dist-electron"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "node_modules/**/*"
+    ],
+    "mac": {
+      "category": "public.app-category.graphics-design",
+      "target": "dmg"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  },
+  "dependencies": {
+    "@react-three/drei": "^10.7.4",
+    "@react-three/fiber": "^9.3.0",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "better-sqlite3": "^9.2.2",
+    "lucide-react": "^0.542.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwindcss-animate": "^1.0.7",
+    "three": "^0.179.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@metagptx/vite-plugin-source-locator": "^0.0.6",
+    "@types/react": "^18.3.17",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "concurrently": "^8.2.2",
+    "electron": "^28.1.0",
+    "electron-builder": "^24.9.1",
+    "eslint": "^9.17.0",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.16",
+    "globals": "^15.14.0",
+    "postcss": "^8.5.1",
+    "tailwindcss": "^3.4.0",
+    "vite": "^5.4.19",
+    "wait-on": "^7.2.0"
+  }
+}
