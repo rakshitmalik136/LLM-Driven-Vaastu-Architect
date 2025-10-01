@@ -1,18 +1,4 @@
-// Conditionally import Node.js modules only in Electron environment
-let Database, path;
-
-async function loadNodeModules() {
-  if (typeof window !== 'undefined' && window.electronAPI?.isElectron) {
-    try {
-      const betterSqlite3 = await import('better-sqlite3');
-      const pathModule = await import('path');
-      Database = betterSqlite3.default;
-      path = pathModule;
-    } catch (error) {
-      console.warn('Failed to load Node.js modules, using web fallbacks:', error);
-    }
-  }
-}
+// Database service that works in both browser and Electron environments
 
 class DatabaseService {
   constructor() {
