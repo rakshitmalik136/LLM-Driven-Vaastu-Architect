@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Home, Building, TreePine, Layers, Settings, FolderOpen, Plus } from 'lucide-react';
 
-const Sidebar = ({ currentProject, setCurrentProject }) => {
+const Sidebar = ({ currentProject, setCurrentProject } = {}) => {
   const [activeTab, setActiveTab] = useState('projects');
   const [projects] = useState([
     { id: 1, name: 'Modern Villa', type: 'Residential', vastuScore: 92 },
