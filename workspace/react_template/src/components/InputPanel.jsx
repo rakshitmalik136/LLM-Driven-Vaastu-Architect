@@ -45,7 +45,7 @@ const InputPanel = ({ setVastuScore } = {}) => {
         type: 'UPDATE_VASTU_SCORE',
         payload: vastuAnalysis
       });
-      setVastuScore(vastuAnalysis.score);
+      setVastuScore && setVastuScore(vastuAnalysis.score);
 
       setInput('');
     } catch (error) {
